@@ -20,7 +20,7 @@ const router = express.Router();
 
 router.use(crossOriginMiddleWare);
 
-// Login and registration are public. All following API routes require a JWT.
+// Login and registration are public; protected API routes require a JWT.
 router.post("/login", ApiLogin.login);
 router.post("/user", ApiUser.addUser);
 
@@ -36,7 +36,6 @@ router.delete("/novel", requireAdmin, ApiNovel.deleteNovel);
 router.get("/novel_list", ApiNovel.getNovelList);
 router.post("/search-novel", ApiNovel.searchNovel);
 router.get("/novel-detail", loadCurrentUser, ApiNovel.getNovelDetail);
-
 router.post("/batch-upload-novel", requireAdmin, uploadNovels, ApiNovel.batchUploadNovel);
 
 router.post("/comment", loadCurrentUser, ApiComment.postComment);

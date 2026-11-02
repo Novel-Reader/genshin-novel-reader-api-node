@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { requirePageAuth } = require("../middlewares/page-auth");
 
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Genshin novel reader" });
@@ -18,14 +19,16 @@ router.get("/register", function (req, res, next) {
 });
 
 router.get("/logout", function (req, res, next) {
-  res.render("logout");
+  res.clearCookie("novelToken", { path: "/" });
+  res.clearCookie("username", { path: "/" });
+  res.redirect("/login");
 });
 
-router.get("/novel", function (req, res, next) {
+router.get("/novel", requirePageAuth(), function (req, res, next) {
   res.render("novel");
 });
 
-router.get("/admin", function (req, res) {
+router.get("/admin", requirePageAuth({ adminOnly: true }), function (req, res) {
   res.render("admin");
 });
 
