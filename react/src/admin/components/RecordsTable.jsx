@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Empty, Table, Typography } from 'antd';
 import Pagination from './Pagination';
 
 export default function RecordsTable({ section, sectionKey, records, total, page, pageSize, loading, error, onPageChange, onBookSelect }) {
@@ -10,43 +11,43 @@ export default function RecordsTable({ section, sectionKey, records, total, page
           <p>浏览与管理平台中的{section.label.slice(0, -2)}记录。</p>
         </div>
         <div className="record-summary">
-          <span className="summary-label">记录总数</span>
-          <strong>{total.toLocaleString('zh-CN')}</strong>
-          <span className="summary-unit">条</span>
+          <Typography.Text type="secondary">记录总数</Typography.Text>
+          <Typography.Title level={3}>
+            {total.toLocaleString('zh-CN')}
+            <Typography.Text type="secondary">条</Typography.Text>
+          </Typography.Title>
         </div>
       </div>
       <div className="table-frame">
         <div className="table-toolbar">
-          <div><span className="live-indicator" /> 当前列表</div>
-          <span>每页 {pageSize} 条</span>
+          <span>当前列表</span>
+          <Typography.Text type="secondary">每页 {pageSize} 条</Typography.Text>
         </div>
-        <div className="table-scroll">
-          <table>
-            <thead>
-              <tr>{section.columns.map((column) => <th key={column.key} style={{ width: column.width }}>{column.label}</th>)}</tr>
-            </thead>
-            <tbody>
-              {loading ? <tr><td className="table-message" colSpan={section.columns.length}>正在读取记录…</td></tr>
-                : error ? <tr><td className="table-message error-message" colSpan={section.columns.length}>{error}</td></tr>
-                  : !records.length ? <tr><td className="table-message" colSpan={section.columns.length}>这里还没有记录</td></tr>
-                    : records.map((record) => (
-                      <tr className={sectionKey === 'books' ? 'book-row' : ''} key={record.id} onClick={sectionKey === 'books' ? () => onBookSelect(record) : undefined}>
-                        {section.columns.map((column) => {
-                          const value = record[column.key];
-                          const displayValue = column.format ? column.format(value) : value ?? '—';
-                          return (
-                            <td className={column.primary ? 'primary-cell' : ''} key={column.key} title={String(displayValue)}>
-                              {column.primary && sectionKey === 'books'
-                                ? <button className="book-title-button" onClick={(event) => { event.stopPropagation(); onBookSelect(record); }} type="button">{displayValue}<span>查看统计 ↗</span></button>
-                                : displayValue}
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    ))}
-            </tbody>
-          </table>
-        </div>
+        {error ? <div className="table-error"><Empty description={error} /></div> : <Table
+          rowKey="id"
+          columns={section.columns.map((column) => ({
+            title: column.label,
+            dataIndex: column.key,
+            key: column.key,
+            width: column.width,
+            render: (value, record) => {
+              const displayValue = column.format ? column.format(value) : value ?? '—';
+              if (column.primary && sectionKey === 'books') {
+                return (
+                  <Button type="link" className="book-title-button" onClick={() => onBookSelect(record)}>
+                    {displayValue}<span>查看统计 ↗</span>
+                  </Button>
+                );
+              }
+              return column.primary ? <Typography.Text strong>{displayValue}</Typography.Text> : displayValue;
+            },
+          }))}
+          dataSource={records}
+          loading={loading}
+          pagination={false}
+          locale={{ emptyText: <Empty description="这里还没有记录" /> }}
+          scroll={{ x: true }}
+        />}
         <Pagination page={page} total={total} pageSize={pageSize} loading={loading} onPageChange={onPageChange} />
       </div>
     </>

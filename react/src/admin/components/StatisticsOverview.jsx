@@ -1,4 +1,5 @@
 import React from 'react';
+import { Alert, Button, Card, Col, Row, Skeleton, Statistic } from 'antd';
 import AuthorChart from './AuthorChart';
 
 export default function StatisticsOverview({ statistics, loading, error, onBrowseBooks }) {
@@ -11,33 +12,17 @@ export default function StatisticsOverview({ statistics, loading, error, onBrows
           <p>平台内容与读者互动的整体情况。</p>
         </div>
       </div>
-      {error ? <div className="detail-error">{error}</div> : (
+      {error ? <Alert message={error} type="error" showIcon /> : (
         <>
-          <div className="stat-cards">
-            <article className="stat-card">
-              <span>注册用户</span>
-              <strong>{loading ? '—' : Number(statistics?.users || 0).toLocaleString('zh-CN')}</strong>
-              <small>平台用户总数</small>
-            </article>
-            <article className="stat-card">
-              <span>书籍作品</span>
-              <strong>{loading ? '—' : Number(statistics?.books || 0).toLocaleString('zh-CN')}</strong>
-              <small>已收录作品</small>
-            </article>
-            <article className="stat-card">
-              <span>读者评论</span>
-              <strong>{loading ? '—' : Number(statistics?.comments || 0).toLocaleString('zh-CN')}</strong>
-              <small>累计互动数量</small>
-            </article>
-          </div>
-          {loading ?
-            <section className="detail-panel">
-              <p className="stats-empty">正在读取统计…</p>
-            </section>
-          :
+          <Row gutter={[16, 16]} className="stat-cards">
+            <Col xs={24} sm={8}><Card loading={loading}><Statistic title="注册用户" value={Number(statistics?.users || 0)} suffix="位" /></Card></Col>
+            <Col xs={24} sm={8}><Card loading={loading}><Statistic title="书籍作品" value={Number(statistics?.books || 0)} suffix="本" /></Card></Col>
+            <Col xs={24} sm={8}><Card loading={loading}><Statistic title="读者评论" value={Number(statistics?.comments || 0)} suffix="条" /></Card></Col>
+          </Row>
+          {loading ? <Card><Skeleton active paragraph={{ rows: 4 }} /></Card> :
             <AuthorChart authors={statistics?.commentAuthors} books={statistics?.commentBooks} />
           }
-          <button className="overview-books-link" onClick={onBrowseBooks} type="button">浏览书籍并查看单本统计 <span>→</span></button>
+          <Button className="overview-books-link" block onClick={onBrowseBooks}>浏览书籍并查看单本统计 →</Button>
         </>
       )}
     </>

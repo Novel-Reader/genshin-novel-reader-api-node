@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import axios from 'axios';
+import { Breadcrumb, Button, ConfigProvider, Layout, theme } from 'antd';
 import AdminSidebar from './components/AdminSidebar';
 import BookStatistics from './components/BookStatistics';
 import RecordsTable from './components/RecordsTable';
 import StatisticsOverview from './components/StatisticsOverview';
+
+import 'antd/dist/reset.css';
 import './style.css';
 
 const PAGE_SIZE = 20;
@@ -63,7 +66,7 @@ function formatDate(value) {
   return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleDateString('zh-CN');
 }
 
-function AdminApp() {
+export function AdminApp() {
   const [sectionKey, setSectionKey] = useState('overview');
   const [page, setPage] = useState(1);
   const [records, setRecords] = useState([]);
@@ -107,7 +110,7 @@ function AdminApp() {
     });
 
     return () => controller.abort();
-  }, [sectionKey, page]);
+  }, [section, sectionKey, page]);
 
   useEffect(() => {
     if (bookId == null) return undefined;
@@ -145,44 +148,46 @@ function AdminApp() {
   const title = bookId == null ? activeNavigation.label : '书籍统计';
 
   return (
-    <main className="admin-shell">
-      <AdminSidebar navigation={navigation} activeKey={sectionKey} detailOpen={bookId != null} onSelect={selectSection} />
-      <section className="admin-content">
-        <header className="content-topbar">
-          <div className="breadcrumb">工作台 <span>/</span> {title}{detailBook && <> <span>/</span> {detailBook.name}</>}</div>
-          <a className="site-link" href="/">返回阅读站 <span aria-hidden="true">↗</span></a>
-        </header>
-        <div className="content-inner">
-          {bookId != null ? (
-            <BookStatistics
-              book={detailBook}
-              statistics={bookStatistics}
-              page={bookPage}
-              pageSize={PAGE_SIZE}
-              loading={bookLoading}
-              error={bookError}
-              onPageChange={setBookPage}
-              onBack={() => { setBookId(null); setBookStatistics(null); }}
-            />
-          ) : sectionKey === 'overview' ? (
-            <StatisticsOverview statistics={statistics} loading={loading} error={error} onBrowseBooks={() => selectSection('books')} />
-          ) : (
-            <RecordsTable
-              section={section}
-              sectionKey={sectionKey}
-              records={records}
-              total={total}
-              page={page}
-              pageSize={PAGE_SIZE}
-              loading={loading}
-              error={error}
-              onPageChange={setPage}
-              onBookSelect={openBookStatistics}
-            />
-          )}
-        </div>
-      </section>
-    </main>
+    <ConfigProvider theme={{ algorithm: theme.defaultAlgorithm, token: { colorPrimary: '#657d68', borderRadius: 6 } }}>
+      <Layout className="admin-shell">
+        <AdminSidebar navigation={navigation} activeKey={sectionKey} detailOpen={bookId != null} onSelect={selectSection} />
+        <Layout className="admin-content">
+          <header className="content-topbar">
+            <Breadcrumb items={[{ title: '工作台' }, { title }, ...(detailBook ? [{ title: detailBook.name }] : [])]} />
+            <Button type="link" href="/">返回阅读站 ↗</Button>
+          </header>
+          <main className="content-inner">
+            {bookId != null ? (
+              <BookStatistics
+                book={detailBook}
+                statistics={bookStatistics}
+                page={bookPage}
+                pageSize={PAGE_SIZE}
+                loading={bookLoading}
+                error={bookError}
+                onPageChange={setBookPage}
+                onBack={() => { setBookId(null); setBookStatistics(null); }}
+              />
+            ) : sectionKey === 'overview' ? (
+              <StatisticsOverview statistics={statistics} loading={loading} error={error} onBrowseBooks={() => selectSection('books')} />
+            ) : (
+              <RecordsTable
+                section={section}
+                sectionKey={sectionKey}
+                records={records}
+                total={total}
+                page={page}
+                pageSize={PAGE_SIZE}
+                loading={loading}
+                error={error}
+                onPageChange={setPage}
+                onBookSelect={openBookStatistics}
+              />
+            )}
+          </main>
+        </Layout>
+      </Layout>
+    </ConfigProvider>
   );
 }
 

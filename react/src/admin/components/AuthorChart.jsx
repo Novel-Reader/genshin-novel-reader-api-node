@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Chart } from '@antv/g2';
+import { Card, Select, Space, Typography } from 'antd';
 
 export default function AuthorChart({ authors = [], books = [], title = '活跃评论作者', description = '评论数最多的 12 位作者' }) {
   const container = useRef(null);
@@ -41,26 +42,27 @@ export default function AuthorChart({ authors = [], books = [], title = '活跃�
   }, [authors, books, chartType, dimension]);
 
   return (
-    <section className="detail-panel chart-panel">
-      <div className="panel-heading">
-        <div><span className="eyebrow">COMMUNITY / ANALYTICS</span><h2>{title}</h2></div>
-        <span>{description}</span>
-      </div>
-      <div className="chart-controls">
-        {books.length > 0 && <label>统计维度
-          <select value={dimension} onChange={(event) => setDimension(event.target.value)}>
-            <option value="author">评论作者</option>
-            <option value="book">书籍</option>
-          </select>
-        </label>}
-        <label>图表类型
-          <select value={chartType} onChange={(event) => setChartType(event.target.value)}>
-            <option value="interval">柱状图</option>
-            <option value="line">折线图</option>
-          </select>
-        </label>
-      </div>
-      {(dimension === 'author' ? authors : books).length ? <div className="chart-canvas" ref={container} /> : <p className="stats-empty">暂无评论统计</p>}
-    </section>
+    <Card
+      className="chart-panel"
+      title={
+        <Space direction="vertical" size={0}>
+          <Typography.Text type="secondary">COMMUNITY / ANALYTICS</Typography.Text>
+          <Typography.Title level={5}>{title}</Typography.Title>
+        </Space>
+      }
+      extra={<Space wrap>
+        <Typography.Text type="secondary">{description}</Typography.Text>
+        {books.length > 0 &&
+          <Select aria-label="统计维度" value={dimension} onChange={setDimension} options={[{ value: 'author', label: '评论作者' }, { value: 'book', label: '书籍' }]} />
+        }
+        <Select aria-label="图表类型" value={chartType} onChange={setChartType} options={[{ value: 'interval', label: '柱状图' }, { value: 'line', label: '折线图' }]} />
+      </Space>}
+    >
+      {(dimension === 'author' ? authors : books).length ?
+        <div className="chart-canvas" ref={container} />
+        :
+        <Typography.Paragraph className="stats-empty" type="secondary">暂无评论统计</Typography.Paragraph>
+      }
+    </Card>
   );
 }
