@@ -21,7 +21,7 @@ router.get("/register", function (req, res, next) {
 router.get("/logout", function (req, res, next) {
   res.clearCookie("novelToken", { path: "/" });
   res.clearCookie("username", { path: "/" });
-  res.redirect("/login");
+  res.render("logout");
 });
 
 router.get("/novel", requirePageAuth(), function (req, res, next) {

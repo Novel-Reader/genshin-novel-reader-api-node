@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+}
+
+.logout-page {
+  align-items: center;
+  background:
+    radial-gradient(ellipse at 18% 15%, rgba(205, 218, 191, 0.58), transparent 34%),
+    radial-gradient(ellipse at 86% 85%, rgba(213, 224, 203, 0.56), transparent 38%),
+    #f4f5ef;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 28px 18px;
+}
+
+.logout-card {
+  border: 1px solid rgba(54, 71, 55, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 24px 70px rgba(40, 54, 40, 0.12);
+  max-width: 520px;
+  width: 100%;
+}
+
+.logout-card .ant-result-title {
+  color: #26332a;
+  font-weight: 600;
+}
+
+.logout-card .ant-result-subtitle {
+  color: #778078;
+  line-height: 1.8;
+}
+
+.logout-card .ant-result-extra .ant-btn {
+  box-shadow: 0 8px 18px rgba(83, 111, 87, 0.2);
+  font-weight: 600;
+}

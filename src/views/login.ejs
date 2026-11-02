@@ -1,62 +1,14 @@
 <!DOCTYPE html>
-  <html lang="zh-CN">
+<html lang="zh-CN">
   <head>
     <%- include('common') %>
-    <%- include('style') %>
+    <link rel="stylesheet" href="/js/login/style.css">
     <title>登录</title>
   </head>
-    <body>
-      <div class="page-container">
-        <h2>登录</h2>
-        <form id="login-form" action="/api/login" method="post" class="form-example">
-          <div class="form-example">
-            <label for="email">邮箱</label>
-            <input type="email" name="email" id="email" autocomplete="username" required>
-          </div>
-          <div class="form-example">
-            <label for="password">密码</label>
-            <input type="password" name="password" id="password" autocomplete="current-password" required>
-          </div>
-          <div class="form-example">
-            <input type="submit" value="登录" id="submit-button">
-          </div>
-          <p id="login-error" role="alert" style="color: #b42318"></p>
-        </form>
-      </div>
-      <script>
-        const form = document.getElementById("login-form");
-        const error = document.getElementById("login-error");
-        const submitButton = document.getElementById("submit-button");
-        form.addEventListener("submit", async (event) => {
-          event.preventDefault();
-          error.textContent = "";
-          submitButton.disabled = true;
-          try {
-            const response = await fetch(form.action, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                email: form.elements.email.value,
-                password: form.elements.password.value,
-              }),
-            });
-            const result = await response.json();
-            if (!response.ok || !result.token) {
-              throw new Error("邮箱或密码错误，请重试。");
-            }
-            const maxAge = 60 * 60;
-            document.cookie = `novelToken=${encodeURIComponent(result.token)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
-            document.cookie = `username=${encodeURIComponent(form.elements.email.value)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
-            const requestedReturnTo = new URLSearchParams(window.location.search).get("returnTo") || "/admin";
-            const destination = new URL(requestedReturnTo, window.location.origin);
-            window.location.assign(destination.origin === window.location.origin
-              ? destination.href
-              : "/admin");
-          } catch (loginError) {
-            error.textContent = loginError.message || "登录失败，请稍后重试。";
-            submitButton.disabled = false;
-          }
-        });
-      </script>
-    </body>
-  </html>
+  <body>
+    <div id="react-app"></div>
+    <script src="/react.production.min.js"></script>
+    <script src="/react-dom.production.min.js"></script>
+    <script type="module" src="/js/login/index.es.js"></script>
+  </body>
+</html>

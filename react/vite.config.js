@@ -8,6 +8,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         admin: path.resolve(__dirname, 'src/admin/index.jsx'),
+        login: path.resolve(__dirname, 'src/login/index.jsx'),
+        logout: path.resolve(__dirname, 'src/logout/index.jsx'),
         reader: path.resolve(__dirname, 'src/reader/index.jsx'),
         register: path.resolve(__dirname, 'src/register/index.jsx'),
       },
@@ -18,6 +20,12 @@ export default defineConfig({
         assetFileNames: (assetInfo) => {
           if (assetInfo.name?.endsWith('.css') && assetInfo.name.includes('admin')) {
             return 'admin/style.css';
+          }
+          if (assetInfo.name?.endsWith('.css') && assetInfo.name.includes('login')) {
+            return 'login/style.css';
+          }
+          if (assetInfo.name?.endsWith('.css') && assetInfo.name.includes('logout')) {
+            return 'logout/style.css';
           }
           return '[name]/assets/[name]-[hash][extname]';
         },
