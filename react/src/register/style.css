@@ -11,11 +11,14 @@ body {
 
 .register-page {
   align-items: center;
-  background: #f5f6f4;
+  background:
+    radial-gradient(ellipse at 18% 15%, rgba(205, 218, 191, 0.58), transparent 34%),
+    radial-gradient(ellipse at 86% 85%, rgba(213, 224, 203, 0.56), transparent 38%),
+    #f4f5ef;
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  padding: 48px 24px;
+  padding: 28px 18px;
 }
 
 .register-card {

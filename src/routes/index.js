@@ -2,12 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { requirePageAuth } = require("../middlewares/page-auth");
 
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "Genshin novel reader" });
-});
-
-router.post("/", function (req, res, next) {
-  res.render("index", { title: "Genshin novel reader" });
+router.get("/", function (req, res) {
+  res.redirect("/login");
 });
 
 router.get("/login", function (req, res, next) {

@@ -30,10 +30,10 @@ export function LoginApp() {
       document.cookie = `novelToken=${encodeURIComponent(result.token)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
       document.cookie = `username=${encodeURIComponent(email.trim())}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
       const returnTo = new URL(
-        new URLSearchParams(window.location.search).get('returnTo') || '/admin',
+        new URLSearchParams(window.location.search).get('returnTo') || '/novel',
         window.location.origin
       );
-      window.location.assign(returnTo.origin === window.location.origin ? returnTo.href : '/admin');
+      window.location.assign(returnTo.origin === window.location.origin ? returnTo.href : '/novel');
     } catch (loginError) {
       setError(loginError.message || '登录失败，请稍后重试。');
       setSubmitting(false);
@@ -89,7 +89,9 @@ export function LoginApp() {
               登录
             </Button>
           </Form>
-          <Paragraph className="login-footnote">安全连接 · 仅限授权账户访问</Paragraph>
+          <Paragraph className="login-register-link">
+            还没有账户？ <a href="/register">立即注册</a>
+          </Paragraph>
         </Card>
       </main>
     </ConfigProvider>

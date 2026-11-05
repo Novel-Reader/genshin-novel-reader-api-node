@@ -35,7 +35,7 @@ export default function RecordsTable({ section, sectionKey, records, total, page
               if (column.primary && sectionKey === 'books') {
                 return (
                   <Button type="link" className="book-title-button" onClick={() => onBookSelect(record)}>
-                    {displayValue}<span>查看统计 ↗</span>
+                    {displayValue}
                   </Button>
                 );
               }

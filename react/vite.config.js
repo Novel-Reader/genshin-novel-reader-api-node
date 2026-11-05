@@ -1,36 +1,35 @@
 import { defineConfig } from 'vite';
-import path from 'path';
+import { fileURLToPath } from 'node:url';
+
+const sourcePath = (feature) => fileURLToPath(new URL(`./src/${feature}/index.jsx`, import.meta.url));
 
 export default defineConfig({
   build: {
-    outDir: '../public/js', // 输出到 Express 静态目录
+    outDir: '../public/build',
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        admin: path.resolve(__dirname, 'src/admin/index.jsx'),
-        login: path.resolve(__dirname, 'src/login/index.jsx'),
-        logout: path.resolve(__dirname, 'src/logout/index.jsx'),
-        reader: path.resolve(__dirname, 'src/reader/index.jsx'),
-        register: path.resolve(__dirname, 'src/register/index.jsx'),
+        admin: sourcePath('admin'),
+        login: sourcePath('login'),
+        logout: sourcePath('logout'),
+        reader: sourcePath('reader'),
+        register: sourcePath('register'),
       },
       output: {
         format: 'es',
-        name: '[name]', // 按入口名称生成不同的全局变量
-        entryFileNames: '[name]/index.es.js',
+        entryFileNames: 'js/[name]/index.es.js',
+        chunkFileNames: 'js/assets/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name?.endsWith('.css') && assetInfo.name.includes('admin')) {
-            return 'admin/style.css';
+          if (assetInfo.name?.endsWith('.css')) {
+            if (assetInfo.name.includes('reset')) return 'css/shared/reset.css';
+            const feature = ['admin', 'login', 'logout', 'reader', 'register'].find((name) =>
+              assetInfo.name.includes(name)
+            );
+            if (feature) return `css/${feature}/style.css`;
+            return 'css/shared/style.css';
           }
-          if (assetInfo.name?.endsWith('.css') && assetInfo.name.includes('login')) {
-            return 'login/style.css';
-          }
-          if (assetInfo.name?.endsWith('.css') && assetInfo.name.includes('logout')) {
-            return 'logout/style.css';
-          }
-          return '[name]/assets/[name]-[hash][extname]';
+          return 'assets/[name]-[hash][extname]';
         },
-        // 禁用内联动态导入
-        inlineDynamicImports: false,
       },
     },
   },
