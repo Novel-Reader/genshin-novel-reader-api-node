@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+}
+
+.register-page {
+  align-items: center;
+  background: #f5f6f4;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 48px 24px;
+}
+
+.register-card {
+  background: #fff;
+  border: 1px solid #dfe4df;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(40, 54, 40, 0.06);
+  max-width: 480px;
+  width: 100%;
+}
+
+.register-card .ant-card-body {
+  padding: 32px 34px 18px;
+}
+
+.register-mark {
+  align-items: center;
+  background: #e8eee3;
+  border-radius: 14px;
+  color: #526b55;
+  display: flex;
+  font-size: 21px;
+  font-weight: 700;
+  height: 46px;
+  justify-content: center;
+  margin-bottom: 18px;
+  width: 46px;
+}
+
+.register-eyebrow {
+  color: #758575;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  margin-bottom: 8px;
+}
+
+.register-title.ant-typography {
+  color: #26332a;
+  font-size: 29px;
+  margin: 0 0 5px;
+}
+
+.register-description {
+  color: #778078;
+  margin-bottom: 24px;
+}
+
+.register-card .ant-form-item-label > label {
+  color: #38433b;
+  font-weight: 600;
+}
+
+.register-card .ant-input-affix-wrapper {
+  border-color: #e4e8e1;
+}
+
+.register-card .ant-input-prefix {
+  color: #8a968b;
+  margin-right: 10px;
+}
+
+.register-alert {
+  margin: -2px 0 18px;
+}
+
+.register-submit {
+  box-shadow: 0 8px 18px rgba(83, 111, 87, 0.2);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.register-footnote {
+  color: #9aa29a;
+  font-size: 12px;
+  margin: 24px 0 10px;
+  text-align: center;
+}
+
+.register-footnote a {
+  color: #526b55;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .register-page {
+    padding: 24px 16px;
+  }
+
+  .register-card .ant-card-body {
+    padding: 24px 20px 14px;
+  }
+
+  .register-title.ant-typography {
+    font-size: 26px;
+  }
+}
