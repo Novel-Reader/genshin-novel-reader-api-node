@@ -7,7 +7,7 @@ class ApiNovel {
 
   static addNovel(req, res) {
     let { name, cover_photo, author, detail, price, brief, size, tag } = req.body;
-    if (typeof name !== "string" || !name.trim() || name.length > 50 || typeof detail !== "string") {
+    if (typeof name !== "string" || !name.trim() || name.length > 255 || typeof detail !== "string") {
       res.status(400).send({ error_message: "A valid name and detail are required" });
       return;
     }
