@@ -178,7 +178,7 @@ class ApiNovel {
       }
       // Count the download count of download_info table and write it into the book table
       if (results) {
-        const sql = `update book set download_count = (select count(id) from download_info WHERE bookid=?) where id=?;`;
+        const sql = `update book set download_count = (select count(*) from download_info WHERE bookid=?) where id=?;`;
         DBHelper(sql,(err, results) => {
           if (err) {
             logger.error(err);
