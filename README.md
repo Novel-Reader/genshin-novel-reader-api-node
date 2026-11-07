@@ -2,6 +2,10 @@
 
 This is server for Genshin-novel-reader using express.
 
+## 项目声明与许可证
+
+本项目是粉丝制作项目，与米哈游及《原神》官方无关，也未获其认可或赞助。本项目没有商业推广的需求。仓库中的 MIT License 仅适用于作者有权授权的项目原创代码和文档，不涵盖米哈游或第三方拥有的商标、素材、代码及其他内容；这些内容仍受各自权利和许可约束。MIT License 允许他人在遵守许可证条件的前提下商业使用受其覆盖的内容；本项目没有商业推广需求的说明，不会限制该许可证授予的权利。详见仓库根目录的 `LICENSE` 文件。
+
 Set the `JWT_SECRET` environment variable to a securely generated secret before starting the server. If it is missing, the application falls back to a built-in development key; do not use that default in production. For example, generate a secret with `openssl rand -base64 48` and provide it through your deployment environment. Do not commit production secrets to source control.
 
 本地 MariaDB/Redis 服务、数据库初始化与升级 SQL 由统一脚本项目维护：https://github.com/Novel-Reader/genshin-novel-reader-scripts
